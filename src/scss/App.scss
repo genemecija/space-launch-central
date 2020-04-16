@@ -7,6 +7,8 @@
 body {
     width: 100vw;
     height: 100vh;
+    overflow-x: hidden;
+    background: #242829;
 }
 
 #root {
@@ -14,26 +16,23 @@ body {
     display: flex;
     flex-direction: column;
     #main-content{
-        border: 3px solid red;
+        // border: 3px solid red;
         width: 100%;
-        height: 800px;
+        height: 700px;
         display: flex;
         align-items: center;
-        padding-top: 100px;
         justify-content: space-between;
         flex-direction: column;
         // overflow: hidden;
-        position: relative;
-
-        .vehicle {
-            // border: 2px solid blue;
-            width: 100px;
-            height: 200px;
-        }
+        // position: relative;
+        background-color: #fff;
+        position: fixed;
     }
     #launch-manifest {
         border: 3px solid green;
         width: 100vw;
+        position: absolute;
+        margin-top: 900px;
     }
 }
 // .line-highlight {
@@ -44,44 +43,44 @@ body {
 //     transform: rotateZ(90deg);
 //     transition: "all 1000ms linear";
 // }
-.hud-dot {
-    position: "absolute";
-    top: "40vw";
-    border: "3px solid black";
-    border-radius: "50%";
-    transform: rotateZ(90deg);
-    transition: "all 1000ms linear";
+// .hud-dot {
+//     position: "absolute";
+//     top: "40vw";
+//     border: "3px solid black";
+//     border-radius: "50%";
+//     transform: rotateZ(90deg);
+//     transition: "all 1000ms linear";
 
-    &::after {
-        content: "";
-        position: absolute;
-        height: 100%;
-        width: 20px;
-        left: -11px;
-        background-image: radial-gradient(circle at center, #333 4px, transparent 4px);
-        background-size: 20px 20px;
-        background-position: center right;
-        background-repeat: no-repeat;
-    }
-}
-#now-marker {
-    position: "absolute";
-    top: "40vw";
-    border: "3px solid black";
-    border-radius: "50%";
-    transform: rotateZ(90deg);
-    transition: "all 1000ms linear";
+//     &::after {
+//         content: "";
+//         position: absolute;
+//         height: 100%;
+//         width: 20px;
+//         left: -11px;
+//         background-image: radial-gradient(circle at center, #333 4px, transparent 4px);
+//         background-size: 20px 20px;
+//         background-position: center right;
+//         background-repeat: no-repeat;
+//     }
+// }
+// #now-marker {
+//     position: "absolute";
+//     top: "40vw";
+//     border: "3px solid black";
+//     border-radius: "50%";
+//     transform: rotateZ(90deg);
+//     transition: "all 1000ms linear";
 
-    &::after {
-        content: "";
-        position: absolute;
-        height: 10px;
-        width: 20px;
-        left: -11px;
-        // background-image: radial-gradient(circle at center, #333 4px, transparent 4px);
-        background-image: linear-gradient(#333, #f00);
-        background-size: 10px 20px;
-        background-position: center right;
-        background-repeat: no-repeat;
-    }
-}
+//     &::after {
+//         content: "";
+//         position: absolute;
+//         height: 10px;
+//         width: 20px;
+//         left: -11px;
+//         // background-image: radial-gradient(circle at center, #333 4px, transparent 4px);
+//         background-image: linear-gradient(#333, #f00);
+//         background-size: 10px 20px;
+//         background-position: center right;
+//         background-repeat: no-repeat;
+//     }
+// }

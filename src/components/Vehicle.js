@@ -1,82 +1,47 @@
-import React, { useState, useEffect } from "react"
-import moment from "moment"
+import React from "react"
 
 export default function Vehicle(props) {
 
-    const [distanceOffset, setDistanceOffset] = useState(0)
-    const [clockArray, setClockArray] = useState([])
-
-    function startClocks() {
-        let now = new Date().getTime()
-        // let launch = new Date('2020-03-09 20:00:00 PST').getTime();
-        // let launch = new Date(2020, 3, 9, 22, 20, 0, 0).getTime()
-        // var strDateTime = "Fri, 18 Oct 2013 11:38:23 GMT";
-        let launch = new Date('Apr 14 2020 11:19:00 GMT-700')
-        // let launch = new Date('2020-04-15T00:00:00Z')
-        console.log(launch.toLocaleString());
-
-        const timeUntil = launch - now;
-        let duration = moment.duration(timeUntil, 'milliseconds');
-        
-        let interval
-        if (duration.days() > 1) { // If greater than 1 day, iterate per day
-            interval = 1000*60*60*24
-        } else if (duration.hours() > 3) { // If greater than 6 hours, iterate per hours
-            interval = 1000*60*60
-        } else if (duration.hours() > 1) { // If greater than 1 hour, iterate per minute
-            interval = 1000*60
-        } else { // If less than 1 hour, iterate per second
-            interval = 1000
-        }
-        
-
-        const clock = setInterval(() => {
-            duration = moment.duration(duration - 1000, 'milliseconds');
-            console.log(duration.days() + " days " + duration.hours() + ":" + duration.minutes() + ":" + duration.seconds())
-            // get time remaining between now and launchDate
-            setDistanceOffset(duration.seconds() * -1)
-            console.log("duration.seconds()", duration.seconds());
-        }, [1000]);
-
-        // Add clock to clock array for clearing on component unload
-        setClockArray(prev => [...prev, clock])
-
-        return clock
-    }
-    function stopClocks() {
-        clockArray.forEach(clock => {
-            clearInterval(clock)
-        })
-    }
-    
-
-    // useEffect(() => {
-    //     startClocks()
-
-    //     return (
-    //         stopClocks()
-    //     )
-    // }, [])
-    // startClocks()
-    // const clockChecker = setInterval(() => {
-    //     console.log('clockChecker');
-    //     startClocks()
-    // }, [5000])
+    // name={launchData[0] ? launchData[0].rocket.name : ""} launchDate={launchData[0] ? launchData[0].windowstart : ""}
+    const data = props.data
+    const rocketName = data ? data.rocket.name : ""
+    const rocketImg = data ? data.rocket.imageURL !== "https://launchlibrary1.nyc3.digitaloceanspaces.com/RocketImages/placeholder_1920.png" ? data.rocket.imageURL : `./media/images/${rocketName}.jpg` : ""
+    const launchDate = data ? data.windowstart : ""
+    console.log("props", props);
 
     const cardStyle = {
-        minHeight: "200px",
-        position: "relative",
-        left: distanceOffset,
-        backgroundImage: 'url(./media/images/falcon9.jpg)',
-        backgroundSize: '100%',
-        backgroundPosition: 'center bottom',
-        backgroundRepeat: 'no-repeat',
-        transition: 'all 1000ms linear'
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        paddingBottom: "40px"
     }
-    
+    const imgStyle = {
+        maxHeight: "100%"
+    }
+    const imgDivStyle = {
+        // border: "1px solid cyan",
+        height: "100%",
+        width: "fit-content"
+    }
+    const left = {
+        position: "absolute",
+        color: "#333",
+        left: "20px",
+        top: "20px",
+        fontSize: "3em"
+    }
         
         
     return (
-        <div className="vehicle card" style={cardStyle}>{props.name}</div>
+        <div className="vehicle card" style={cardStyle}>
+            <div id="left" style={left}>
+                {rocketName}<br/>
+                {launchDate}
+            </div>
+            <div id="center" style={imgDivStyle}>
+                <img src={rocketImg} alt="rocket" style={imgStyle} / >
+            </div>
+        </div>
     )
 }

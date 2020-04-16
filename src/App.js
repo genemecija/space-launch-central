@@ -26,17 +26,17 @@ function App() {
     }, [])
     useEffect(() => {
         setCards(launchData.map(launch => <LaunchCard data={{name: launch.name}} />))
-        console.log("launchData", launchData);
+        
     }, [launchData])
 
     return (
         <>
             <div id="main-content">
-                <Vehicle name="Falcon 9" launchDate="2020-04-10" />
-                <LaunchHUD />
+                <Vehicle data={launchData ? launchData[0] : []} />
+                <LaunchHUD data={launchData ? launchData[0] : []}/>
             </div>
             <div id="launch-manifest">
-                {cards}
+                {cards.slice(1,cards.length)}
             </div>
         </>
     );
