@@ -25,7 +25,7 @@ function App() {
         })
     }, [])
     useEffect(() => {
-        setCards(launchData.map(launch => <LaunchCard data={{name: launch.name}} />))
+        setCards(launchData.map(data => <LaunchCard data={data} />))
         
     }, [launchData])
 
@@ -36,6 +36,7 @@ function App() {
                 <LaunchHUD data={launchData ? launchData[0] : []}/>
             </div>
             <div id="launch-manifest">
+                <div className="header">Launch Schedule</div>
                 {cards.slice(1,cards.length)}
             </div>
         </>

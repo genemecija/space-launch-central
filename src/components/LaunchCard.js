@@ -2,27 +2,26 @@ import React from "react"
 
 export default function LaunchCard(props) {
 
-    const {imageURL, name, wikiURL, isostart} = props.data
+    const d = props.data
+    const rocketName = d.rocket.name
+    const rocketImg = d.rocket.imageURL
+    const launchTime = d.windowstart
+
 
     const style = {
-        border: "1px solid purple",
-        width: "95%",
-        minWidth: "600px",
-        height: "200px",
-        
-        // backgroundImage: `url(${imageURL})`,
-        backgroundSize: '100%',
-        backgroundPosition: 'center bottom',
-        backgroundRepeat: 'no-repeat',
-        transition: 'all 1000ms linear'
+        backgroundImage: `url(${rocketImg})`,
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
     }
-
     return (
-        <div className="launch-card" style={style}>
-            {name}
-            <p>
-                This is the launch card.
-            </p>
+        <div className="launch-card">
+            <div id="pic" style={style}>
+            </div>
+            <div id="info">
+                {rocketName}<br/>
+                {launchTime}<br/>
+            </div>
         </div>
     )
 }

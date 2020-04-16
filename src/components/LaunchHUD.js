@@ -12,18 +12,7 @@ export default function LaunchHUD(props) {
     const [hours, setHours] = useState(0)
     const [timeSign, setTimeSign] = useState("-")
 
-    const hudContainerStyle = {
-        width: "100%",
-        height: "180px",
-        overflow: "hidden",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-end",
-        // border: "3px solid blue",
-        position: "absolute",
-        bottom: "0",
-        paddingBottom: "1vw"
-    }
+
     const hudStyle = {
         width: "100%",
         height: "100%",
@@ -32,7 +21,7 @@ export default function LaunchHUD(props) {
         alignItems: "center",
         // border: "3px dotted green",
         position: "absolute",
-        bottom: "-38vw"
+        bottom: "-37vw"
     }
 
     
@@ -102,32 +91,24 @@ export default function LaunchHUD(props) {
         position: "absolute"
     }
 
-    const timerStyle = {
-        fontSize: "3em",
-        fontFamily: "'Share Tech Mono', monospace",
-        color: "white",
-        display: "inline-block",
-        zIndex: "100"
-    }
 
     return (
-        <div id="hud-container" style={hudContainerStyle}>
-
+        <div id="hud-container">
             <div id="hud" style={hudStyle}>
                 <svg height="84vw" width="84vw" style={{position: "absolute"}}>
-                    <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="60" stroke="black" fill="transparent" strokeOpacity="0.5" id="tracking-line-background" />
-                    <circle cx="42vw" cy="42vw" r="38.5vw" strokeWidth="0" stroke="black" fill="#333" id="timer-background" />
+                    <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="60px" stroke="black" fill="transparent" strokeOpacity="0.4" id="tracking-line-background" />
+                    <circle cx="42vw" cy="42vw" r="38.5vw" strokeWidth="0" stroke="black" fill="#323232" id="timer-background" />
                 </svg>
                 <svg height="84vw" width="84vw" style={svgStyle}>
                     <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="2" stroke="#ddd" fill="transparent" id="tracking-line" />
                     <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={timeSign === "-" ? "black" : "white"} id="launch-dot" />
-                    <text x="48.4%" y="1.75%" fill="red" style={{fontSize: "1rem"}}>LAUNCH</text>
+                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}}>LAUNCH</text>
                 </svg>
                 <svg height="84vw" width="84vw" style={{position: "absolute"}}>
                     <rect x="calc(42vw - 1px)" y="calc(2vw - 4px)" width="2px" height="8" strokeWidth="0" stroke="white" fill="white" transformOrigin="center" id="now-marker" />
                 </svg>
             </div>
-            <span id="timer" style={timerStyle}>T{timeSign}{hours}:{minutes}:{seconds}</span>
+            <span id="timer">T{timeSign}{hours}:{minutes}:{seconds}</span>
         </div>
     )
 }
