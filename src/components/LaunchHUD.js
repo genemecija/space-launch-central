@@ -11,6 +11,7 @@ export default function LaunchHUD(props) {
     const [minutes, setMinutes] = useState(0)
     const [hours, setHours] = useState(0)
     const [timeSign, setTimeSign] = useState("-")
+    const [mission, setMission] = useState("")
 
 
     const hudStyle = {
@@ -49,7 +50,8 @@ export default function LaunchHUD(props) {
             duration = moment.duration(duration - 1000, 'milliseconds');
 
             // Everything to minutes
-            const d = duration.days()*24*60
+            console.log(duration.days(), "days")
+            const d = duration.days()*24
             const h = Math.abs(duration.hours() + d)
             const m = Math.abs(duration.minutes())
             const s = Math.abs(duration.seconds())
@@ -62,21 +64,13 @@ export default function LaunchHUD(props) {
             setSeconds(s < 10 ? "0"+s : s)
 
             // get time remaining between now and launchDate
-            setDotRotation(prev => prev + 1)
+            setDotRotation(prev => prev + .5)
         }, [1000]);
 
         // Add clock to clock array for clearing on component unload
         setClockArray(prev => [...prev, clock])
 
-
-
-        // setDotRotation(prev => prev + 3.6)
-        // setClockArray(setInterval(() => {
-        //     try {
-        //         setDotRotation(prev => prev + 3.6)
-        //     }
-        //     catch {}
-        // }, [10000]))
+        setMission(props.data ? props.data.missions[0].name : "")
 
         return (
             clockArray.forEach(clock => {
@@ -108,7 +102,8 @@ export default function LaunchHUD(props) {
                     <rect x="calc(42vw - 1px)" y="calc(2vw - 4px)" width="2px" height="8" strokeWidth="0" stroke="white" fill="white" transformOrigin="center" id="now-marker" />
                 </svg>
             </div>
-            <span id="timer">T{timeSign}{hours}:{minutes}:{seconds}</span>
+            <span id="timer">T{timeSign}{hours}:{minutes}:{seconds}</span><br/>
+            <span id="mission">{mission}</span>
         </div>
     )
 }
