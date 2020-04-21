@@ -27,6 +27,7 @@ body {
         justify-content: space-between;
         flex-direction: column;
         overflow: hidden;
+        z-index: 150;
         // position: relative;
         background-color: #e2e2e2;
         position: absolute;
@@ -56,10 +57,17 @@ body {
                 display: block;
                 z-index: 100;
             }
+            #hud {
+                svg {
+                    .hidden {
+                        visibility: hidden;
+                    }
+                }
+            }
         }
     }
     #launch-manifest {
-        border: 3px solid green;
+        // border: 3px solid green;
         width: 100vw;
         position: absolute;
         margin-top: 800px;
@@ -91,4 +99,7 @@ body {
             }
         }
     }
+}
+#launch-dot {
+    z-index: 150;
 }

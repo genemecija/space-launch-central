@@ -4,7 +4,7 @@ import moment from "moment"
 
 export default function LaunchHUD(props) {
 
-    const [dotRotation, setDotRotation] = useState(-30)
+    
     const [clockArray, setClockArray] = useState([])
 
     const [seconds, setSeconds] = useState(0)
@@ -12,7 +12,36 @@ export default function LaunchHUD(props) {
     const [hours, setHours] = useState(0)
     const [timeSign, setTimeSign] = useState("-")
     const [mission, setMission] = useState("")
+    const [dotsVisible, setDotsVisible] = useState(false)
+    const [rotations, setRotations] = useState({
+        engine_chill: 0,
+        strongback_retract: 0,
+        startup: 0,
+        liftoff: 0
+    })
 
+    const [dotStyles, setDotStyles] = useState({
+        engine_chill: {
+            transform: `rotateZ(${rotations.engine_chill}deg)`,
+            transition: "transform 1100ms linear",
+            position: "absolute"
+        },
+        strongback_retract: {
+            transform: `rotateZ(${rotations.strongback_retract}deg)`,
+            transition: "transform 1100ms linear",
+            position: "absolute"
+        },
+        startup: {
+            transform: `rotateZ(${rotations.startup}deg)`,
+            transition: "transform 1100ms linear",
+            position: "absolute"
+        },
+        liftoff: {
+            transform: `rotateZ(${rotations.liftoff}deg)`,
+            transition: "transform 1100ms linear",
+            position: "absolute"
+        }
+    })
 
     const hudStyle = {
         width: "100%",
@@ -28,29 +57,21 @@ export default function LaunchHUD(props) {
     
     useEffect(() => {
         let now = new Date().getTime()
-        let launch = new Date(props.data ? props.data.windowstart : 'Apr 15 2020 20:21:20 GMT-700')
-        // console.log("props.launchDate", props.launchDate)
-        // launch = new Date(props.data.windowstart)
-        const timeUntil = launch - now;
+        let launch = new Date(props.data ? props.data.windowstart : 'Apr 20 2020 15:39:20 GMT-700')
+        // let launch = new Date('Apr 21 2020 00:32:40 GMT-700') // test launch time
+        
+        let timeUntil = launch - now;
         let duration = moment.duration(timeUntil, 'milliseconds');
 
-        // let interval
-        // if (duration.days() > 1) { // If greater than 1 day, iterate per day
-        //     interval = 1000*60*60*24
-        // } else if (duration.hours() > 3) { // If greater than 6 hours, iterate per hours
-        //     interval = 1000*60*60
-        // } else if (duration.hours() > 1) { // If greater than 1 hour, iterate per minute
-        //     interval = 1000*60
-        // } else { // If less than 1 hour, iterate per second
-        //     interval = 1000
-        // }
         
 
         const clock = setInterval(() => {
-            duration = moment.duration(duration - 1000, 'milliseconds');
+            now = new Date().getTime()
+            timeUntil = launch - now;
+            // duration = moment.duration(duration, 'milliseconds');
+            duration = moment.duration(timeUntil, 'milliseconds');
 
             // Everything to minutes
-            console.log(duration.days(), "days")
             const d = duration.days()*24
             const h = Math.abs(duration.hours() + d)
             const m = Math.abs(duration.minutes())
@@ -63,13 +84,27 @@ export default function LaunchHUD(props) {
             setMinutes(m < 10 ? "0"+m : m)
             setSeconds(s < 10 ? "0"+s : s)
 
-            // get time remaining between now and launchDate
-            setDotRotation(prev => prev + .5)
+            // Rotation is the number of minutes left * 10
+            const rotation = -(((duration.hours() + d)*60)+(duration.minutes())+(duration.seconds()/60))
+            setRotations(prev => (
+                prev = {
+                    engine_chill: (rotation+7) * 10,
+                    strongback_retract: (rotation+4.5) * 10,
+                    startup: (rotation+1) * 10,
+                    liftoff: rotation * 10
+                }
+            ))
+
+            if (rotation > -90) {
+                setDotsVisible(true)
+            }
+
         }, [1000]);
 
         // Add clock to clock array for clearing on component unload
         setClockArray(prev => [...prev, clock])
 
+        // Set Mission Title underneath Timer
         setMission(props.data ? props.data.missions[0].name : "")
 
         return (
@@ -79,11 +114,43 @@ export default function LaunchHUD(props) {
         )
     }, [props.data])
 
-    const svgStyle = {
-        transform: `rotateZ(${dotRotation}deg)`,
-        transition: "transform 10s linear",
-        position: "absolute"
-    }
+    useEffect(() => {
+        if (dotsVisible) {
+            const dots = document.querySelectorAll('.hidden')
+            dots.forEach(dot => dot.classList.remove('hidden'))
+        }
+    }, [dotsVisible])
+
+    useEffect(() => {
+        setDotStyles(prev => prev = {
+            engine_chill: {
+                transform: `rotateZ(${rotations.engine_chill}deg)`,
+                transition: "transform 1100ms linear",
+                position: "absolute"
+            },
+            strongback_retract: {
+                transform: `rotateZ(${rotations.strongback_retract}deg)`,
+                transition: "transform 1100ms linear",
+                position: "absolute"
+            },
+            startup: {
+                transform: `rotateZ(${rotations.startup}deg)`,
+                transition: "transform 1100ms linear",
+                position: "absolute"
+            },
+            liftoff: {
+                transform: `rotateZ(${rotations.liftoff}deg)`,
+                transition: "transform 1100ms linear",
+                position: "absolute"
+            }
+        })
+    }, [rotations])
+
+    // const svgStyle = {
+    //     transform: `rotateZ(${dotStyles}deg)`,
+    //     transition: "transform 1100ms linear",
+    //     position: "absolute"
+    // }
 
 
     return (
@@ -93,10 +160,25 @@ export default function LaunchHUD(props) {
                     <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="60px" stroke="black" fill="transparent" strokeOpacity="0.4" id="tracking-line-background" />
                     <circle cx="42vw" cy="42vw" r="38.5vw" strokeWidth="0" stroke="black" fill="#323232" id="timer-background" />
                 </svg>
-                <svg height="84vw" width="84vw" style={svgStyle}>
+                <svg height="84vw" width="84vw" style={dotStyles.liftoff} id="liftoff-dot">
                     <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="2" stroke="#ddd" fill="transparent" id="tracking-line" />
-                    <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={timeSign === "-" ? "black" : "white"} id="launch-dot" />
-                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}}>LAUNCH</text>
+                    <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={rotations.liftoff < 0 ? "black" : "white"} id="launch-dot" className="dot hidden" />
+                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}} className="hidden">LIFTOFF</text>
+                </svg>
+                <svg height="84vw" width="84vw" style={dotStyles.startup} id="startup-dot">
+                    {/* <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="2" stroke="#ddd" fill="transparent" id="tracking-line" /> */}
+                    <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={rotations.startup < 0 ? "black" : "white"} id="launch-dot" className="dot hidden" />
+                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}} className="hidden">STARTUP</text>
+                </svg>
+                <svg height="84vw" width="84vw" style={dotStyles.strongback_retract} id="strongback-retract-dot">
+                    {/* <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="2" stroke="#ddd" fill="transparent" id="tracking-line" /> */}
+                    <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={rotations.strongback_retract < 0  ? "black" : "white"} id="launch-dot" className="dot hidden" />
+                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}} className="hidden">STRONGBACK RETRACT</text>
+                </svg>
+                <svg height="84vw" width="84vw" style={dotStyles.engine_chill} id="engine-chill-dot">
+                    {/* <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="2" stroke="#ddd" fill="transparent" id="tracking-line" /> */}
+                    <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={rotations.engine_chill < 0 ? "black" : "white"} id="launch-dot" className="dot hidden" />
+                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}} className="hidden">ENGINE CHILL</text>
                 </svg>
                 <svg height="84vw" width="84vw" style={{position: "absolute"}}>
                     <rect x="calc(42vw - 1px)" y="calc(2vw - 4px)" width="2px" height="8" strokeWidth="0" stroke="white" fill="white" transformOrigin="center" id="now-marker" />
