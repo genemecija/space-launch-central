@@ -58,12 +58,10 @@ export default function LaunchHUD(props) {
     useEffect(() => {
         let now = new Date().getTime()
         let launch = new Date(props.data ? props.data.windowstart : 'Apr 20 2020 15:39:20 GMT-700')
-        // let launch = new Date('Apr 21 2020 00:32:40 GMT-700') // test launch time
+        // let launch = new Date('Apr 22 2020 15:18:30 GMT-700') // test launch time
         
         let timeUntil = launch - now;
         let duration = moment.duration(timeUntil, 'milliseconds');
-
-        
 
         const clock = setInterval(() => {
             now = new Date().getTime()
@@ -95,8 +93,11 @@ export default function LaunchHUD(props) {
                 }
             ))
 
-            if (rotation > -90) {
+            if (rotation*10 > -180 && rotation*10 < 180) {
+                console.log("rotation*10", rotation*10)
                 setDotsVisible(true)
+            } else {
+                setDotsVisible(false)
             }
 
         }, [1000]);
@@ -118,6 +119,9 @@ export default function LaunchHUD(props) {
         if (dotsVisible) {
             const dots = document.querySelectorAll('.hidden')
             dots.forEach(dot => dot.classList.remove('hidden'))
+        } else {
+            const dots = document.querySelectorAll('.dot')
+            dots.forEach(dot => dot.classList.add('hidden'))
         }
     }, [dotsVisible])
 
@@ -163,22 +167,19 @@ export default function LaunchHUD(props) {
                 <svg height="84vw" width="84vw" style={dotStyles.liftoff} id="liftoff-dot">
                     <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="2" stroke="#ddd" fill="transparent" id="tracking-line" />
                     <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={rotations.liftoff < 0 ? "black" : "white"} id="launch-dot" className="dot hidden" />
-                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}} className="hidden">LIFTOFF</text>
+                    <text x="50%" y="1.75%" fill="white" style={{fontSize: "0.8rem"}} className="dot hidden" textAnchor='middle'>LIFTOFF</text>
                 </svg>
                 <svg height="84vw" width="84vw" style={dotStyles.startup} id="startup-dot">
-                    {/* <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="2" stroke="#ddd" fill="transparent" id="tracking-line" /> */}
                     <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={rotations.startup < 0 ? "black" : "white"} id="launch-dot" className="dot hidden" />
-                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}} className="hidden">STARTUP</text>
+                    <text x="50%" y="1.75%" fill="white" style={{fontSize: "0.8rem"}} className="dot hidden" textAnchor='middle'>STARTUP</text>
                 </svg>
                 <svg height="84vw" width="84vw" style={dotStyles.strongback_retract} id="strongback-retract-dot">
-                    {/* <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="2" stroke="#ddd" fill="transparent" id="tracking-line" /> */}
                     <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={rotations.strongback_retract < 0  ? "black" : "white"} id="launch-dot" className="dot hidden" />
-                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}} className="hidden">STRONGBACK RETRACT</text>
+                    <text x="50%" y="1.75%" fill="white" style={{fontSize: "0.8rem"}} className="dot hidden" textAnchor='middle'>STRONGBACK RETRACT</text>
                 </svg>
                 <svg height="84vw" width="84vw" style={dotStyles.engine_chill} id="engine-chill-dot">
-                    {/* <circle cx="42vw" cy="42vw" r="40vw" strokeWidth="2" stroke="#ddd" fill="transparent" id="tracking-line" /> */}
                     <circle cx="42vw" cy="2vw" r="4px" strokeWidth="2" stroke="white" fill={rotations.engine_chill < 0 ? "black" : "white"} id="launch-dot" className="dot hidden" />
-                    <text x="48.4%" y="1.75%" fill="white" style={{fontSize: "1rem"}} className="hidden">ENGINE CHILL</text>
+                    <text x="50%" y="1.75%" fill="white" style={{fontSize: "0.8rem"}} className="dot hidden" textAnchor='middle'>ENGINE CHILL</text>
                 </svg>
                 <svg height="84vw" width="84vw" style={{position: "absolute"}}>
                     <rect x="calc(42vw - 1px)" y="calc(2vw - 4px)" width="2px" height="8" strokeWidth="0" stroke="white" fill="white" transformOrigin="center" id="now-marker" />

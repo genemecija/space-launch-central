@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function LaunchCard(props) {
+export default function LaunchDetail(props) {
 
     const data = props.data
     const name = data ? data.name : ""
@@ -22,10 +22,11 @@ export default function LaunchCard(props) {
         backgroundImage: `url(${rocketImg})`,
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
-        backgroundSize: "cover"
+        backgroundSize: "cover",
+        zIndex: "10000"
     }
     return (
-        <div className="launch-card">
+        <div className="launch-detail">
             <div id="pic" style={style}>
             </div>
             <div id="info">
@@ -35,13 +36,13 @@ export default function LaunchCard(props) {
                 </p>
                 &nbsp;<br/>
                 <p>
-                    {rocketName && <><span className="launch-detail" id="rocket"><b>ROCKET</b> <a href={rocketWiki} target="_blank" rel="noopener noreferrer">{rocketName}</a></span><br/></>}
-                    {location1 && <><span className="launch-detail" id="rocket"><b>LAUNCH PAD</b> <a href={locationWiki} target="_blank" rel="noopener noreferrer">{location1}</a></span><br/></>}
-                    {location2 && <><span className="launch-detail" id="rocket"><b>LOCATION</b> {location2}</span><br/></>}
+                    <span className="launch-detail" id="rocket"><b>ROCKET</b> <a href={rocketWiki} target="_blank" rel="noopener noreferrer">{rocketName}</a></span><br/>
+                    <span className="launch-detail" id="rocket"><b>LAUNCH PAD</b> <a href={locationWiki} target="_blank" rel="noopener noreferrer">{location1}</a></span><br/>
+                    <span className="launch-detail" id="rocket"><b>LOCATION</b> {location2}</span><br/>
+                    <span className="launch-detail" id="rocket"><b>MISSION</b> {mission}</span><br/>
+                    <span className="launch-detail" id="rocket"><b>MISSION DESCRIPTION</b> {missionDesc}</span><br/>
+                    <span className="launch-detail" id="rocket"><b>MISSION TYPE</b> {missionType}</span><br/>
                     {agency && <span className="launch-detail" id="rocket"><b>AGENCY</b> <a href={agencyWiki} target="_blank" rel="noopener noreferrer">{agency}</a></span>}
-                    {mission && <><span className="launch-detail" id="rocket"><b>MISSION</b> {mission}</span><br/></>}
-                    {missionType && <><span className="launch-detail" id="rocket"><b>MISSION TYPE</b> {missionType}</span><br/></>}
-                    {missionDesc && <><span className="launch-detail" id="rocket"><b>MISSION DESCRIPTION</b> {missionDesc}</span><br/></>}
                 </p>
             </div>
         </div>
