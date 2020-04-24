@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/space-launch-central/static/css/main.d0b4b29c.chunk.css",
+    "main.js": "/space-launch-central/static/js/main.a73fcdd6.chunk.js",
+    "main.js.map": "/space-launch-central/static/js/main.a73fcdd6.chunk.js.map",
+    "runtime-main.js": "/space-launch-central/static/js/runtime-main.b11ed854.js",
+    "runtime-main.js.map": "/space-launch-central/static/js/runtime-main.b11ed854.js.map",
+    "static/js/2.f8b5c319.chunk.js": "/space-launch-central/static/js/2.f8b5c319.chunk.js",
+    "static/js/2.f8b5c319.chunk.js.map": "/space-launch-central/static/js/2.f8b5c319.chunk.js.map",
+    "index.html": "/space-launch-central/index.html",
+    "precache-manifest.c3bc15fd8ee2e15289cc11dc1f901a67.js": "/space-launch-central/precache-manifest.c3bc15fd8ee2e15289cc11dc1f901a67.js",
+    "service-worker.js": "/space-launch-central/service-worker.js",
+    "static/css/main.d0b4b29c.chunk.css.map": "/space-launch-central/static/css/main.d0b4b29c.chunk.css.map",
+    "static/js/2.f8b5c319.chunk.js.LICENSE.txt": "/space-launch-central/static/js/2.f8b5c319.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b11ed854.js",
+    "static/js/2.f8b5c319.chunk.js",
+    "static/css/main.d0b4b29c.chunk.css",
+    "static/js/main.a73fcdd6.chunk.js"
+  ]
+}
